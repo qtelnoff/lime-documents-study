@@ -1,0 +1,15 @@
+matplotlib
+numpy
+paddleocr==3.4.0
+pandas==3.0.0
+Pillow==12.1.1
+python-dotenv==1.2.1
+scikit_learn
+scipy
+scikit-image
+torch
+torchvision==0.25.0
+tqdm==4.67.1
+wandb
+pyarrow
+fastparquet
