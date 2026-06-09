@@ -11,7 +11,9 @@ lime-documents-study/
 ├── results/
 │   ├── segmentations/           # Output of segmentation scripts (step 1)
 │   ├── inferences/              # Output of inference scripts (step 2)
-│   └── consistencies/           # Output of consistency evaluation (step 3a)
+│   ├── consistencies/           # Output of consistency evaluation (step 3a)
+│   ├── deletion/                # Output of deletion faithfulness evaluation (step 3b)
+│   └── insertion/               # Output of insertion faithfulness evaluation (step 3b)
 ├── src/
 │   ├── utils.py                 # Shared utilities (model loading, hashing, ...)
 │   ├── lime/
@@ -170,17 +172,27 @@ They sweep over a large grid of hyperparameters (segmentation algorithms, colors
 python src/metrics/deletion.py --image_id 1
 ```
 
+The deletion script sweeps the following segmentation algorithms: `paddle_ocr_10x10_new`, `paddle_ocr_20x10_new`, `paddle_ocr_30x10_new`.
+
+Results are saved to: `$RESULTS_DIR/deletion/results_image_deletion_{image_id}.parquet`
+
+---
+
 **Insertion** — starts from a fully masked image and inserts the most important segments first. A faithful explanation leads to a fast rise in model confidence.
 
 ```bash
 python src/metrics/insertion.py --image_id 1
 ```
 
+The insertion script sweeps the following segmentation algorithms: `quickshift`, `slic`, `grid_4x4_without_bboxes`, `paddle_ocr`, `paddle_ocr_background`, `paddle_ocr_4x4_new`, `paddle_ocr_10x10_new`, `paddle_ocr_20x10_new`, `paddle_ocr_30x10_new`.
+
+Results are saved to: `$RESULTS_DIR/insertion/results_image_insertion_{image_id}.parquet`
+
+---
+
 | Parameter | Description | Default |
 | :--- | :--- | :--- |
 | `--image_id` | 1-based index of the image in `dataset_info.jsonl` | `0` |
 
-> Both scripts iterate over all combinations defined in `PARAMETERS_GRID` at the top of each file. Edit that dictionary to restrict or extend the search.
-
-Results are saved as a `.parquet` (insertion) or `.csv` (deletion) file in `$RESULTS_DIR`.
+> Both scripts iterate over all combinations defined in `PARAMETERS_GRID` at the top of each file. Edit that dictionary to restrict or extend the search. Both scripts also sweep: colors (`black`, `white`, `mean`), output types (`probas`, `logits`), norms (`euclidean_interpretable`, `cosine_interpretable`), kernel widths (`0.1`, `0.3`, `0.7`, `1.0`), and n_neighbors (`100` – `9000`).
 

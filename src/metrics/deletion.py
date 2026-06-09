@@ -259,9 +259,9 @@ def main(args):
                             
     # Optionally save results to disk at the end
     results_df = pd.DataFrame(evaluation_results)
-    results_file = RESULTS_DIR / "deletion" / f"results_image_deletion_{args.image_id}.csv"
+    results_file = RESULTS_DIR / "deletion" / f"results_image_deletion_{args.image_id}.parquet"
     results_file.parent.mkdir(parents=True, exist_ok=True)
-    results_df.to_csv(results_file, index=False)
+    results_df.to_parquet(results_file, index=False)
     print(f"\nEvaluation complete. Results saved to: {results_file}")
 
 

@@ -265,7 +265,8 @@ def main(args):
                             
     # Optionally save results to disk at the end
     results_df = pd.DataFrame(evaluation_results)
-    results_file = Path(data_dir) / "results" / "icdm" / f"insertion_image_{args.image_id}.parquet"
+    results_file = RESULTS_DIR / "insertion" / f"results_image_insertion_{args.image_id}.parquet"
+    results_file.parent.mkdir(parents=True, exist_ok=True)
     results_df.to_parquet(results_file, index=False)
     print(f"\nEvaluation complete. Results saved to: {results_file}")
 
