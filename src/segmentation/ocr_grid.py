@@ -61,7 +61,7 @@ def get_segmentation_mask_from_ocr(bboxes, height, width):
 
 def main(path_to_data_info: Path, num_rows: int = 4, num_cols: int = 4):
     # init the results
-    path_to_result = Path(results_dir) / "segmentation" / f"ocr_grid_{num_rows}x{num_cols}"
+    path_to_result = Path(results_dir) / "segmentation" / f"ocr_grid_{num_rows}x{num_cols}" #ignore ty
     path_to_result.mkdir(parents=True, exist_ok=True)
     # create a json file to save the config
     config = {
